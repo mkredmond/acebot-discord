@@ -20,11 +20,11 @@ module.exports = class StatusCommand extends Command {
 		db.get("SELECT id, points FROM scores WHERE id = ? AND channel_id = ?", [msg.author.id, msg.channel.id], function(err, row) { 
 			if(row !== undefined) {
 				msg.reply("You have "+ row.points + " points!")
-					.then(msg => console.log(`Listing the karma for ${msg.author.username}`))
+					.then(msgSent => console.log(`Listing the karma for ${msg.message.author.username}`))
 					.catch(console.error);
 			} else {
 				msg.reply("I ain't found shit!")
-					.then(msg => console.log(`No karma found for  ${msg.author.username}`))
+					.then(msgSent => console.log(`No karma found for  ${msg.message.author.username}`))
 					.catch(console.error);
 			}
 			

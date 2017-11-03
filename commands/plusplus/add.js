@@ -23,7 +23,6 @@ module.exports = class AddCommand extends Command {
 
 	run(msg, { user }) {  
 		if (msg.author.id !== user.id) {
-
 			const db = new sqlite3.Database('./commands/plusplus/database.sqlite');
 
 			db.get("SELECT id, username, channel_id, points FROM scores WHERE id = ?", [user.id], function(err, row) {  
@@ -31,20 +30,20 @@ module.exports = class AddCommand extends Command {
 			    	db.run("INSERT INTO scores (id, username, channel_id, points) VALUES (?, ?, ?, ?)", [user.id, user.username, msg.channel.id, 1]);
 
 			       	msg.channel.send(user.username + " has 1 point!")
-					  .then(msg => console.log(`Incrementing ${user.username} to 1 point`))
+					  .then(msgSent => console.log(`Incrementing ${user.username} to 1 point`))
 					  .catch(console.error);
 			    } else {
 		      		db.run("UPDATE scores SET points = ? WHERE id = ? AND channel_id = ?", [row.points + 1, row.id, row.channel_id])
 
 					msg.channel.send(user.username + " has "+ (row.points + 1) + " points!")
-					  .then(msg => console.log(`Incrementing ${user.username} by 1 point`))
+					  .then(msgSent => console.log(`Incrementing ${user.username} by 1 point`))
 					  .catch(console.error);
 			    }
 			});  
 			db.close();
 		} else {
 			msg.reply('You cannot add points to your user, dumbass.')
-				.then(msg => console.log(`Sent a reply to ${msg.author}`))
+				.then(msg => console.log(`Sent a reply to ${msg.message.author.username}`))
 				.catch(console.error);
 		}
 	}

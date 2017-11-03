@@ -13,6 +13,7 @@ module.exports = class StatusCommand extends Command {
 	}
 
 	run(msg) {  
+		// console.log(msg);
 		const db = new sqlite3.Database('./commands/plusplus/database.sqlite');
 
 		db.all("SELECT username, points FROM scores WHERE channel_id = ? ORDER BY points DESC",[msg.channel.id], function(err, rows) { 
@@ -21,13 +22,12 @@ module.exports = class StatusCommand extends Command {
 				for (var i = 0; i < rows.length; i++) {
 				   leaderboard += rows[i].username + " | " + rows[i].points + "\n";
 				}
-				
 				msg.reply(`The scores have been tallied...\n\n${leaderboard}`)
-					.then(msg => console.log(`${msg.author.username} requested the leaderboard`))
+					.then(msgSent => console.log(`${msg.message.author.username} requested the leaderboard`))
 					.catch(console.error);
 			} else {
 				msg.reply(`Looks like there are no entries yet in this channel.`)
-					.then(msg => console.log(`No entries located in channel: ${msg.channel.id}`))
+					.then(msgSent => console.log(`No entries located in channel: ${msg.message.channel.id}`))
 					.catch(console.error);
 			} 
 		});

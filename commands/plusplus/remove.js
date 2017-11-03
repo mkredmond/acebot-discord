@@ -22,21 +22,27 @@ module.exports = class RemoveCommand extends Command {
 	}
 
 	run(msg, { user }) {  
-		const db = new sqlite3.Database('./commands/plusplus/database.sqlite');
+		if (msg.author.id !== user.id) {
+			const db = new sqlite3.Database('./commands/plusplus/database.sqlite');
 
-		db.get("SELECT id, username, channel_id, points FROM scores WHERE id = ?", [user.id], function(err, row) {  
-		    if(row === undefined) {
-		       	msg.channel.send("You can't take points from a ghost.")
-		       		.then(msg => console.log(`Decrementing ${user.username} by 1 point`))
-				  	.catch(console.error);
-		    } else {
-	      		db.run("UPDATE scores SET points = ? WHERE id = ? AND channel_id = ?", [row.points - 1, row.id, row.channel_id])
-		        console.log('Updating existing user');
-				msg.channel.send(user.username + " has "+ (row.points - 1) + " points :(")
-				  	.then(msg => console.log(`Decrementing ${user.username} by 1 point`))
-				  	.catch(console.error);
-		    }
-		});  
-		db.close();
+			db.get("SELECT id, username, channel_id, points FROM scores WHERE id = ?", [user.id], function(err, row) {  
+			    if(row === undefined) {
+			       	msg.channel.send("You can't take points from a ghost.")
+			       		.then(msgSent => console.log(`Decrementing ${user.username} by 1 point`))
+					  	.catch(console.error);
+			    } else {
+		      		db.run("UPDATE scores SET points = ? WHERE id = ? AND channel_id = ?", [row.points - 1, row.id, row.channel_id])
+			        console.log('Updating existing user');
+					msg.channel.send(user.username + " has "+ (row.points - 1) + " points :(")
+					  	.then(msgSent => console.log(`Decrementing ${user.username} by 1 point`))
+					  	.catch(console.error);
+			    }
+			});  
+			db.close();
+		} else {
+		msg.reply('You cannot add points to your user, dumbass.')
+			.then(msgSent => console.log(`Sent a reply to ${msg.message.author.username}`))
+			.catch(console.error);
+		}
 	}
 }
