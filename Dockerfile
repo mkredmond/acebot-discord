@@ -23,4 +23,4 @@ RUN rm -rf /var/cache/apk/*
 # Bundle app source
 COPY . /usr/src/app
 
-CMD ["pm2-docker", "--public", "$KEYMETRICS_PUBLIC", "--secret", "$KEYMETRICS_SECRET", "process.yml", "--watch"]
+CMD ["pm2-docker", "process.yml", "--watch"]
