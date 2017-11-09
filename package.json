@@ -23,7 +23,6 @@
     "chai": "^4.1.2",
     "chai-webdriver": "^1.2.0",
     "dateformat": "^3.0.2",
-    "discord.js": "^11.2.1",
     "discord.js-commando": "^0.9.0",
     "dotenv": "^4.0.0",
     "giphy-api": "^1.2.7",
@@ -36,5 +35,8 @@
     "sqlite": "^2.8.0",
     "sqlite3": "^3.1.13",
     "supertest": "^3.0.0"
+  },
+  "devDependencies": {
+    "discord.js": "^11.2.1"
   }
 }

@@ -7,7 +7,7 @@ const path = require('path');
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./commands/plusplus/database.sqlite');
     db.run("CREATE TABLE IF NOT EXISTS scores (id INTEGER, username TEXT, channel_id INTEGER, points INTEGER)");
-    db.close()
+    db.close();
 const acebot = new CommandoClient({
     commandPrefix: process.env.PREFIX,
     owner: process.env.OWNER_ID,
